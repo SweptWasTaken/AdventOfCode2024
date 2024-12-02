@@ -1,58 +1,65 @@
 // Advent of Code 2024 Day One
 
-string inputFile = "X:\\Rider Projects\\AdventOfCode\\input.txt";
+namespace AdventOfCode;
 
-List<int> listOne = new List<int>();
-List<int> listTwo = new List<int>();
-List<int> output = new List<int>();
-
-void ListSorter(List<int> arr)
+public class DayOne
 {
-    int n = arr.Count;
+    static string inputFile = "X:\\Rider Projects\\AdventOfCode\\input.txt";
     
-    for (int i = 0; i < n - 1; i++)
+    List<int> listOne = new List<int>();
+    List<int> listTwo = new List<int>();
+    List<int> output = new List<int>();
+    
+    public void ListSorter(List<int> arr)
     {
-        bool swap = false;
+        int n = arr.Count;
         
-        for (int j = 0; j < n - i - 1; j++)
+        for (int i = 0; i < n - 1; i++)
         {
-            if (arr[j] > arr[j + 1])
+            bool swap = false;
+            
+            for (int j = 0; j < n - i - 1; j++)
             {
-                (arr[j], arr[j + 1]) = (arr[j + 1], arr[j]);
-
-                swap = true;
+                if (arr[j] > arr[j + 1])
+                {
+                    (arr[j], arr[j + 1]) = (arr[j + 1], arr[j]);
+    
+                    swap = true;
+                }
+            }
+            
+            if (!swap)
+            {
+                break;
             }
         }
-        
-        if (!swap)
+    }
+    
+    public void ListCounter(List<int> arrx, List<int> arry, List<int> outputList)
+    {
+        for (int i = 0; i < arrx.Count; i++)
         {
-            break;
+            int temp = Math.Abs(arry[i] - arrx[i]);
+            outputList.Add(temp);
         }
     }
-}
-
-void ListCounter(List<int> arrx, List<int> arry, List<int> outputList)
-{
-    for (int i = 0; i < arrx.Count; i++)
+    
+    // Main
+    public DayOne()
     {
-        int temp = Math.Abs(arry[i] - arrx[i]);
-        outputList.Add(temp);
-    }
+        string[] inputLines = File.ReadAllLines(inputFile);
+        
+        for (int i = 0; i < inputLines.Length; i++)
+        {
+            string[] parts = inputLines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            listOne.Add(int.Parse(parts[0]));
+            listTwo.Add(int.Parse(parts[1]));
+        }
+        
+        ListSorter(listOne);
+        ListSorter(listTwo);
+    
+        ListCounter(listOne, listTwo, output);
+        Console.WriteLine(output.Sum());
+    }    
 }
-
-// Main
-string[] inputLines = File.ReadAllLines(inputFile);
-
-for (int i = 0; i < inputLines.Length; i++)
-{
-    string[] parts = inputLines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-    listOne.Add(int.Parse(parts[0]));
-    listTwo.Add(int.Parse(parts[1]));
-}
-
-ListSorter(listOne);
-ListSorter(listTwo);
-
-ListCounter(listOne, listTwo, output);
-
-Console.WriteLine(output.Sum());
